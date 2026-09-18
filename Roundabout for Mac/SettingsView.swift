@@ -11,7 +11,6 @@ struct SettingsView: View {
                 Section {
                     Toggle("Automatically quit after applying changes", isOn: $autoQuit)
                     
-                    // Toggle restricted to macOS 13.0+
                     if #available(macOS 13.0, *) {
                         Toggle("Menu Bar Only Mode (Hide Dock Icon)", isOn: $isMenuBarOnly)
                     } else {
@@ -33,9 +32,11 @@ struct SettingsView: View {
 
             // About / Credits Tab
             VStack(spacing: 12) {
-                Image(systemName: "square.stack.3d.down.right.fill")
-                    .font(.system(size: 40))
-                    .foregroundColor(.accentColor)
+                // Dynamically displays your main app icon
+                Image(nsImage: NSApp.applicationIconImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 64, height: 64)
 
                 Text("Roundabout")
                     .font(.title2)

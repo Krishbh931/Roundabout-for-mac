@@ -13,7 +13,7 @@ struct ContentView: View {
             Text("Roundabout")
                 .font(.headline)
 
-            // Switch to Dock Mode Button (Only appears in Menu Bar Only mode)
+            // Button to return to Dock Mode (Only visible in Menu Bar mode)
             if isMenuBarOnly {
                 Button(action: switchToDockMode) {
                     Label("Switch to Dock Mode", systemImage: "macwindow")
@@ -89,14 +89,12 @@ struct ContentView: View {
         .frame(width: 540, height: isMenuBarOnly ? 340 : 320)
     }
 
-    // Returns from Menu Bar Only Mode back to standard Dock execution
     private func switchToDockMode() {
         isMenuBarOnly = false
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
     }
 
-    // Applies custom corner radius
     private func applyCornerRadius() {
         let radiusValue = Int(cornerRadius)
         let command = """
@@ -107,7 +105,6 @@ struct ContentView: View {
         executeCommand(command, successMessage: "Applied radius \(radiusValue)! Please close and reopen each app for changes to take full effect.")
     }
 
-    // Restores original system defaults using 'defaults delete'
     private func restoreSystemDefaults() {
         let command = """
         defaults delete -g NSConvolutionOverride1 2>/dev/null; \
@@ -117,7 +114,6 @@ struct ContentView: View {
         executeCommand(command, successMessage: "Restored system defaults! Please close and reopen each app for changes to take full effect.")
     }
 
-    // Helper to run background terminal task
     private func executeCommand(_ command: String, successMessage: String) {
         isProcessing = true
         statusMessage = ""
